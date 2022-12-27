@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Todo from "./components/TodoList";
+import User from "./components/UserList";
+import useFetch from "./hooks/useFetch";
 
 function App() {
+  const { data, loading, err } = useFetch(
+    "https://jsonplaceholder.typicode.com/posts"
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="App">
+        <section>
+          <Todo />
+        </section>
+        <section>
+          <User />
+        </section>
+      </div>
+      <div className="posts">
+        <h1>Posts</h1>
+        {loading && <h1>Loading....</h1>}
+        {data &&
+          data.slice(0, 10).map((x) => {
+            return <div>{x.title}</div>;
+          })}
+      </div>
+    </>
   );
 }
 
